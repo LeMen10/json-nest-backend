@@ -1,0 +1,52 @@
+{
+  "name": "ecommerce-shop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon --inspect src/index.js",
+    "watch": "node-sass --watch src/resources/scss/ -o src/public/css/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeMen10/Ecommerce-shop.git"
+  },
+  "keywords": [
+    "ecommerce-shop",
+    "nodejs"
+  ],
+  "author": "menvo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LeMen10/Ecommerce-shop/issues"
+  },
+  "homepage": "https://github.com/LeMen10/Ecommerce-shop#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "express-formidable": "^1.2.0",
+    "express-handlebars": "^6.0.6",
+    "express-session": "^1.17.3",
+    "express-validator": "^7.0.1",
+    "jsonwebtoken": "^9.0.0",
+    "method-override": "^3.0.0",
+    "mongoclient": "^1.0.3",
+    "mongoose": "^6.8.0",
+    "mongoose-delete": "^0.5.4",
+    "mongoose-slug-generator": "^1.0.4",
+    "morgan": "^1.10.0",
+    "node-sass": "^8.0.0",
+    "nodemailer": "^6.9.3",
+    "nodemon": "^2.0.22",
+    "paypal-rest-sdk": "^1.8.1",
+    "request": "^2.88.2",
+    "urlencode": "^1.1.0",
+    "uuid": "^9.0.0"
+  }
+}
