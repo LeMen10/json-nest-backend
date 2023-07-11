@@ -359,8 +359,8 @@ class SiteController {
                 payment_method: 'paypal',
             },
             redirect_urls: {
-                return_url: `http://localhost:3000/success?total=${priceTotal}&order_id=${order_id}`,
-                cancel_url: 'http://localhost:3000/cancel',
+                return_url: `${process.env.BASE_URL_REACTJS}/success?total=${priceTotal}&order_id=${order_id}`,
+                cancel_url: `${process.env.BASE_URL_REACTJS}/cancel`,
             },
             transactions: [
                 {
@@ -435,7 +435,7 @@ class SiteController {
         const resetToken = user.createPasswordChangedToken();
         await user.save();
         const html = `Xin vui lòng nhấn vào link dưới đây để thay đổi mật khẩu của bạn.Link này sẽ hết hạn sau 15p kể từ khi bạn nhận được mail này. 
-        <a href=${`http://localhost:3000/reset_password/${resetToken}`}>Click here</a>`;
+        <a href=${`${process.env.BASE_URL_REACTJS}/reset_password/${resetToken}`}>Click here</a>`;
 
         const data = {
             email,
