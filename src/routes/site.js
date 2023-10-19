@@ -5,6 +5,7 @@ const verifyAccessToken = require('../app/middlewares/verifyToken')
 
 router.get('/cancel', (req,res) => res.send('Cancelled (Đơn hàng đã hủy)'));
 router.use('/update-address', verifyAccessToken, siteController.updateAddress) 
+router.use('/delete-canceled-order', verifyAccessToken, siteController.deleteCanceledOrder)
 router.use('/get-address', verifyAccessToken, siteController.getAddressUser) 
 router.use('/get-address-active', verifyAccessToken, siteController.getAddressUserActive) 
 router.use('/update-status-order', siteController.updateStatusOrder) 

@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const adminController = require('../app/controllers/AdminController');
 
+router.use('/order-list', adminController.orderList);
 router.use('/trash-products', adminController.trashProducts);
 router.use('/list-product', adminController.storedProducts);
 router.use('/list-user', adminController.listUser);

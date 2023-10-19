@@ -5,9 +5,9 @@ const Order = new Schema(
     {
         user: { type: mongoose.Schema.Types.ObjectId, maxLenght: 255, ref: 'User' },
         order_date: { type: Date },
-        order_code: { type: String, maxLenght: 255 },
         full_name: { type: String, maxLenght: 255, default: null },
         phone_number: { type: String, maxLenght: 255, default: null },
+        payment_methods: { type: String, maxLenght: 255, default: null },
         recipient_details: {
             specific_address: { type: String, maxLenght: 255, default: null },
             ward: { type: String, maxLenght: 255, default: null },

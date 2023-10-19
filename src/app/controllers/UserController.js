@@ -3,6 +3,7 @@ const orderDetails = require('../models/orderDetails');
 const order = require('../models/Order');
 
 class UserController {
+    
     purchase = asyncHandler(async (req, res) => {
         const { _id } = req.user;
         const order_data = await order.find({ user: _id }, { _id: 1 });
@@ -30,8 +31,6 @@ class UserController {
                 });
                 break;
         }
-
-        console.log(order_details);
         return res.status(200).json({ success: true, order_details });
     });
 

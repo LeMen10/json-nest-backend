@@ -30,7 +30,8 @@ class ProductController {
                 updatedItems[productIndex].price_total += quantity * updatedItems[productIndex].price_unit;
 
                 await Cart.updateOne({ _id: cart._id }, { $set: { cart_line: updatedItems } });
-                return res.status(200).json({ success: true });
+                const count = await Cart.findOne({ user: _id });
+                return res.status(200).json({ success: true, count: count.cart_line.length });
             } else {
                 var [...rest] = cart.cart_line;
                 cart.cart_line = [
@@ -46,7 +47,8 @@ class ProductController {
                 ];
 
                 await Cart.updateOne({ _id: cart._id }, cart);
-                return res.status(200).json({ success: true });
+                const count = await Cart.findOne({ user: _id });
+                return res.status(200).json({ success: true, count: count.cart_line.length });
             }
         } else {
             var cart_line = {
@@ -58,11 +60,9 @@ class ProductController {
                 price_total: product.price * quantity,
             };
             var cart_list = new Cart({ user: _id, cart_line: cart_line });
-            cart_list.save().then(() =>
-                res.status(200).json({
-                    success: true,
-                }),
-            );
+            cart_list.save();
+            const count = await Cart.findOne({ user: _id });
+            return res.status(200).json({ success: true, count: count.cart_line.length });
         }
     });
 }

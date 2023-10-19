@@ -197,7 +197,9 @@ class SiteController {
         cart.cart_line.map((item) => {
             price_total += item.price_total;
         });
-        res.status(200).json({ success: true, cart: cart.cart_line, price_total });
+        return res
+            .status(200)
+            .json({ success: true, cart: cart.cart_line, price_total, count: cart.cart_line.length });
     });
 
     updateQuantityCart = asyncHandler(async (req, res) => {
@@ -310,12 +312,14 @@ class SiteController {
         const ward = req.body.recipientDetails[0].ward;
         const district = req.body.recipientDetails[0].district;
         const city = req.body.recipientDetails[0].city;
+        const payment_methods = req.body.payment_methods;
         var arrIdProduct = [];
 
         const order = {
             user: _id,
             full_name,
             phone_number,
+            payment_methods,
             recipient_details: {
                 specific_address,
                 ward,
@@ -335,11 +339,11 @@ class SiteController {
             };
         });
         await orderDetails.insertMany(data);
-        await Cart.updateOne({ user: _id }, { $pull: { cart_line: { product_id: { $in: arrIdProduct } } } });
+        // await Cart.updateOne({ user: _id }, { $pull: { cart_line: { product_id: { $in: arrIdProduct } } } });
         return res.status(200).json({ success: true, order_id: orderModel._id });
     });
 
-    payment(req, res, next) {
+    payment(req, res) {
         const product_list = [];
         const { priceTotal, order_id, productList } = req.body;
 
@@ -360,7 +364,7 @@ class SiteController {
             },
             redirect_urls: {
                 return_url: `${process.env.BASE_URL_REACTJS}/success?total=${priceTotal}&order_id=${order_id}`,
-                cancel_url: `${process.env.BASE_URL_REACTJS}/cancel`,
+                cancel_url: `${process.env.BASE_URL_REACTJS}/cancel?order_id=${order_id}`,
             },
             transactions: [
                 {
@@ -377,7 +381,7 @@ class SiteController {
         };
 
         paypal.payment.create(create_payment_json, function (error, payment) {
-            console.log(payment);
+            // console.log(payment);
             if (error) {
                 throw error;
             } else {
@@ -409,7 +413,7 @@ class SiteController {
 
         paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
             if (error) {
-                console.log(error.response);
+                // console.log(error.response);
                 throw error;
             } else {
                 res.status(200).json({ success: true });
@@ -423,8 +427,14 @@ class SiteController {
             { $set: { status: 'Đã thanh toán' } },
             { new: true },
         );
-        console.log(result);
         if (result) return res.status(200).json({ success: true });
+    });
+
+    deleteCanceledOrder = asyncHandler(async (req, res) => {
+        const order_id = req.body.order_id;
+        await Order.deleteOne({ _id: order_id });
+        await orderDetails.deleteOne({ order_id: order_id });
+        return res.status(200).json({ success: true });
     });
 
     forgotPassword = asyncHandler(async (req, res) => {
